@@ -1,0 +1,2 @@
+graft coinrankchatweb/static
+graft coinrankchatweb/templates

@@ -1,0 +1,1 @@
+from .coinrankchatweb import app
