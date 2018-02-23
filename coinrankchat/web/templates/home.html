@@ -17,7 +17,7 @@
         {% for entry in entries %}
             <tr>
                 <td>{{ entry.rank }}</td>
-                <td><img class="img-circle" src="{{ entry.img_url }}"/> {{ entry.title }}</td>
+                <td><img class="img-circle" src="{{ entry.img_url }}"/><a href="{{ entry.group_url }}">{{ entry.title }}</a></td>
                 <td class="right">{{ entry.messages_1h }}</td>
                 <td class="right {{ 'negative_change' if entry.change_1h.startswith('-') else 'positive_change' }}">{{ entry.change_1h }}</td>
                 <td class="right">{{ entry.messages_24h }}</td>

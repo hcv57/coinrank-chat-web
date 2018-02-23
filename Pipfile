@@ -10,6 +10,7 @@ url = "https://pypi.python.org/simple"
 flask = "*"
 requests = "*"
 "e1839a8" = {path = ".", editable = true}
+python-slugify = "*"
 
 
 [dev-packages]

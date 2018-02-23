@@ -5,6 +5,8 @@ setup(
     packages=['coinrankchat.web'],
     include_package_data=True,
     install_requires=[
-        'flask', 'requests'
+        'flask',
+        'requests',
+        'python-slugify'
     ]
 )
