@@ -12,7 +12,7 @@ def home():
     r = requests.get('http://%s/channels' % config.API_SERVER_HOST)
     stats = [
         dict(rec,
-             img_url=url_for('static', filename='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id'])),
+             img_url='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id']),
              change_1h=calulate_change(rec['messages_1h'], rec['messages_prev_1h']),
              change_24h=calulate_change(rec['messages_24h'], rec['messages_prev_24h'])
              )
