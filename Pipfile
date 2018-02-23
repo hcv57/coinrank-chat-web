@@ -8,8 +8,8 @@ url = "https://pypi.python.org/simple"
 [packages]
 
 flask = "*"
-"e1839a8" = {path = ".", editable = true}
 requests = "*"
+"e1839a8" = {path = ".", editable = true}
 
 
 [dev-packages]
