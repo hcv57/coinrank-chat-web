@@ -9,7 +9,7 @@ def calulate_change(current, previous):
 
 @app.route('/')
 def home():
-    r = requests.get('http://%s/api/channels' % config.API_SERVER_HOST)
+    r = requests.get('http://%s/channels' % config.API_SERVER_HOST)
     stats = [
         dict(rec,
              img_url=url_for('static', filename='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id'])),
