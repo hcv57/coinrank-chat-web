@@ -30,6 +30,6 @@ def group(_id, slug):
     entry = r.json()
     entry.update(
         img_url_big = '%s/%s-big.jpeg' % (config.IMAGE_SERVER_URL, entry['channel_id']),
-        about = markdown(entry['about'], extensions=["mdx_linkify"])
+        about = markdown(entry.get('about', 'No description available at this time.'), extensions=["mdx_linkify"])
     )
     return render_template('group.html', entry=entry)
