@@ -11,6 +11,8 @@ flask = "*"
 requests = "*"
 "e1839a8" = {path = ".", editable = true}
 python-slugify = "*"
+markdown = "*"
+mdx-linkify = "*"
 
 
 [dev-packages]

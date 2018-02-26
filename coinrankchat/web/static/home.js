@@ -1,5 +1,7 @@
 $(document).ready(function () {
     $('#coinrank-table').DataTable({
-        paging: false
+        paging: false,
+        fixedColumns: true,
+        responsive: true
     });
 });

@@ -1,15 +1,17 @@
 {% extends "layout.html" %}
+{% block title %}Cryptocurrency Chat Ranking{% endblock %}
+
 {% block body %}
     <table id="coinrank-table" class="display table table-striped2 table-bordered" cellspacing="0" width="100%">
         <thead>
         <tr>
             <th>#</th>
             <th>Chat Title</th>
+            <th class="right">Members</th>
             <th class="right">Messages 1h</th>
             <th class="right">% 1h</th>
             <th class="right">Messages 24h</th>
             <th class="right">% 24h</th>
-            <th class="right">Participants</th>
         </tr>
         </thead>
         <tbody>
@@ -18,14 +20,18 @@
             <tr>
                 <td>{{ entry.rank }}</td>
                 <td><img class="img-circle" src="{{ entry.img_url }}"/><a href="{{ entry.group_url }}">{{ entry.title }}</a></td>
+                <td class="right">{{ entry.participants_count }}</td>
                 <td class="right">{{ entry.messages_1h }}</td>
                 <td class="right {{ 'negative_change' if entry.change_1h.startswith('-') else 'positive_change' }}">{{ entry.change_1h }}</td>
                 <td class="right">{{ entry.messages_24h }}</td>
                 <td class="right {{ 'negative_change' if entry.change_24h.startswith('-') else 'positive_change' }}">{{ entry.change_24h }}</td>
-                <td class="right">{{ entry.participants_count }}</td>
             </tr>
         {% endfor %}
         </tbody>
 
     </table>
+{% endblock %}
+
+{% block scripts %}
+    <script type="text/javascript" src="{{ url_for('static', filename='home.js') }}"></script>
 {% endblock %}
