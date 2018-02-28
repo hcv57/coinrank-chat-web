@@ -16,7 +16,7 @@ def home():
 
     yesterdays_group_ranking = dict([
         (group['_id'], i)
-        for (i, group) in enumerate(sorted(response, key=lambda g: g['yesterday']['num_messages'], reverse=True))
+        for (i, group) in enumerate(sorted(response, key=lambda g: g['yesterday']['distinct_participants'], reverse=True))
     ])
 
     groups = [
@@ -29,13 +29,14 @@ def home():
             img_url='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id']),
             num_messages=rec['today']['num_messages'],
             num_participants=rec['today']['max_participants'],
+            global_sentiment_average=rec['global_sentiment_average'],
             sentiment_today=rec['today']['sentiment_average'] or 0,
             sentiment_yesterday=rec['yesterday']['sentiment_average'] or 0,
             delta_messages=calulate_change(rec['today']['num_messages'], rec['yesterday']['num_messages']),
             delta_participants=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants']),
             tracked_long_enough=rec['before_yesterday']['num_messages'] > 0
             )
-        for (i, rec) in enumerate(sorted(response, key=lambda c: c['today']['num_messages'], reverse=True))
+        for (i, rec) in enumerate(sorted(response, key=lambda c: c['today']['distinct_participants'], reverse=True))
     ]
 
     return render_template('home.html', groups=groups)

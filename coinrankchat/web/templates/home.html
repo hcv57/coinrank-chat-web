@@ -24,7 +24,12 @@
                 <td class="right {{ 'negative_change' if group.delta_participants.startswith('-') else 'positive_change' }}">{{ group.delta_participants }}</td>
                 <td class="right">{{ group.num_messages }}</td>
                 <td class="right {{ 'negative_change' if group.delta_messages.startswith('-') else 'positive_change' }}">{{ group.delta_messages }}</td>
-                <td data-order="{{ group.sentiment_today }}" class="right"><i class="far {{ 'fa-thumbs-up' if group.sentiment_today >= 0 else 'fa-thumbs-down' }}"></i> </td>
+                <td data-order="{{ group.sentiment_today }}" class="right">
+                    <i class="far {{ 'fa-thumbs-up' if group.sentiment_today >= 0 else 'fa-thumbs-down' }}"></i>
+                    {% if group.sentiment_today > 0 and group.sentiment_today > group.global_sentiment_average %}
+                      <i class="far fa-thumbs-up"></i>
+                    {% endif %}
+                </td>
 
 
             </tr>
