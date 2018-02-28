@@ -12,17 +12,33 @@ def calulate_change(current, previous):
 
 @app.route('/')
 def home():
-    r = requests.get('http://%s/api/groups' % config.API_SERVER_HOST)
-    entries = [
-        dict(rec,
-             group_url=url_for('group', _id=rec['_id'], slug=slugify(rec['title'])),
-             img_url='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id']),
-             change_1h=calulate_change(rec['messages_1h'], rec['messages_prev_1h']),
-             change_24h=calulate_change(rec['messages_24h'], rec['messages_prev_24h'])
-             )
-        for rec in r.json()
+    response = requests.get('http://%s/api/groups' % config.API_SERVER_HOST).json()
+
+    yesterdays_group_ranking = dict([
+        (group['_id'], i)
+        for (i, group) in enumerate(sorted(response, key=lambda g: g['yesterday']['num_messages'], reverse=True))
+    ])
+
+    groups = [
+        dict(
+            rank=i+1,
+            yesterdays_rank=yesterdays_group_ranking[rec['_id']] + 1,
+            rank_change="%+d" % (yesterdays_group_ranking[rec['_id']] - i),
+            title=rec['title'],
+            group_url=url_for('group', _id=rec['_id'], slug=slugify(rec['title'])),
+            img_url='%s/%s.jpeg' % (config.IMAGE_SERVER_URL, rec['channel_id']),
+            num_messages=rec['today']['num_messages'],
+            num_participants=rec['today']['max_participants'],
+            sentiment_today=rec['today']['sentiment_average'] or 0,
+            sentiment_yesterday=rec['yesterday']['sentiment_average'] or 0,
+            delta_messages=calulate_change(rec['today']['num_messages'], rec['yesterday']['num_messages']),
+            delta_participants=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants']),
+            tracked_long_enough=rec['before_yesterday']['num_messages'] > 0
+            )
+        for (i, rec) in enumerate(sorted(response, key=lambda c: c['today']['num_messages'], reverse=True))
     ]
-    return render_template('home.html', entries=entries)
+
+    return render_template('home.html', groups=groups)
 
 @app.route('/g/<_id>/<slug>')
 def group(_id, slug):

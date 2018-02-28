@@ -6,25 +6,27 @@
         <thead>
         <tr>
             <th>#</th>
-            <th>Chat Title</th>
+            <th>Title</th>
             <th class="right">Members</th>
-            <th class="right">Messages 1h</th>
-            <th class="right">% 1h</th>
-            <th class="right">Messages 24h</th>
-            <th class="right">% 24h</th>
+            <th class="right">Change 24h</th>
+            <th class="right">Messages</th>
+            <th class="right">Change 24h</th>
+            <th class="right">Mood</th>
         </tr>
         </thead>
         <tbody>
 
-        {% for entry in entries %}
+        {% for group in groups %}
             <tr>
-                <td>{{ entry.rank }}</td>
-                <td><img class="img-circle" src="{{ entry.img_url }}"/><a href="{{ entry.group_url }}">{{ entry.title }}</a></td>
-                <td class="right">{{ entry.participants_count }}</td>
-                <td class="right">{{ entry.messages_1h }}</td>
-                <td class="right {{ 'negative_change' if entry.change_1h.startswith('-') else 'positive_change' }}">{{ entry.change_1h }}</td>
-                <td class="right">{{ entry.messages_24h }}</td>
-                <td class="right {{ 'negative_change' if entry.change_24h.startswith('-') else 'positive_change' }}">{{ entry.change_24h }}</td>
+                <td data-order="{{ group.rank }}">{{ group.rank }}<br/><small>(<span class="{{ 'negative_change' if group.rank_change.startswith('-') else 'positive_change' }}">{{ group.rank_change }}</span>)</small></td>
+                <td><img class="img-circle" src="{{ group.img_url }}"/><a href="{{ group.group_url }}">{{ group.title }}</a></td>
+                <td class="right">{{ group.num_participants }}</td>
+                <td class="right {{ 'negative_change' if group.delta_participants.startswith('-') else 'positive_change' }}">{{ group.delta_participants }}</td>
+                <td class="right">{{ group.num_messages }}</td>
+                <td class="right {{ 'negative_change' if group.delta_messages.startswith('-') else 'positive_change' }}">{{ group.delta_messages }}</td>
+                <td data-order="{{ group.sentiment_today }}" class="right"><i class="far {{ 'fa-thumbs-up' if group.sentiment_today >= 0 else 'fa-thumbs-down' }}"></i> </td>
+
+
             </tr>
         {% endfor %}
         </tbody>
