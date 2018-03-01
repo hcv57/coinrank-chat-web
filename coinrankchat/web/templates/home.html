@@ -2,6 +2,8 @@
 {% block title %}Cryptocurrency Chat Ranking{% endblock %}
 
 {% block body %}
+    <h3 style="text-align: center;margin-top: 1rem;margin-bottom: 3.5rem">Cryptocurrency projects ranked by active Telegram chat members</h3>
+
     <table id="coinrank-table" class="display table table-striped2 table-bordered" cellspacing="0" width="100%">
         <thead>
         <tr>
@@ -21,9 +23,9 @@
                 <td data-order="{{ group.rank }}">{{ group.rank }}<br/><small>(<span class="{{ 'negative_change' if group.rank_change.startswith('-') else 'positive_change' }}">{{ group.rank_change }}</span>)</small></td>
                 <td><img class="img-circle" src="{{ group.img_url }}"/><a href="{{ group.group_url }}">{{ group.title }}</a></td>
                 <td class="right">{{ group.num_participants }}</td>
-                <td class="right {{ 'negative_change' if group.delta_participants.startswith('-') else 'positive_change' }}">{{ group.delta_participants }}</td>
+                <td data-order="{{ group.delta_participants }}" class="right {{ 'negative_change' if group.delta_participants.startswith('-') else 'positive_change' }}">{{ group.delta_participants }}<br/><small>({{ group.delta_participants_percentage }})</small></td>
                 <td class="right">{{ group.num_messages }}</td>
-                <td class="right {{ 'negative_change' if group.delta_messages.startswith('-') else 'positive_change' }}">{{ group.delta_messages }}</td>
+                <td data-order="{{ group.delta_messages }}" class="right {{ 'negative_change' if group.delta_messages.startswith('-') else 'positive_change' }}">{{ group.delta_messages }}<br/><small>({{ group.delta_messages_percentage }})</small></td>
                 <td data-order="{{ group.sentiment_today }}" class="right">
                     <i class="far {{ 'fa-thumbs-up' if group.sentiment_today >= 0 else 'fa-thumbs-down' }}"></i>
                     {% if group.sentiment_today > 0 and group.sentiment_today > group.global_sentiment_average %}

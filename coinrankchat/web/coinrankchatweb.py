@@ -8,7 +8,7 @@ from . import config
 app = Flask(__name__)
 
 def calulate_change(current, previous):
-    return "%.0f%%" % round((current - previous) / previous * 100, 2) if previous > 0 else ""
+    return "%.1f%%" % round((current - previous) / previous * 100, 2) if previous > 0 else ""
 
 @app.route('/')
 def home():
@@ -32,8 +32,10 @@ def home():
             global_sentiment_average=rec['global_sentiment_average'],
             sentiment_today=rec['today']['sentiment_average'] or 0,
             sentiment_yesterday=rec['yesterday']['sentiment_average'] or 0,
-            delta_messages=calulate_change(rec['today']['num_messages'], rec['yesterday']['num_messages']),
-            delta_participants=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants']),
+            delta_messages="%+d" % (rec['today']['num_messages'] - rec['yesterday']['num_messages']),
+            delta_messages_percentage=calulate_change(rec['today']['num_messages'], rec['yesterday']['num_messages']),
+            delta_participants="%+d" % (rec['today']['max_participants'] - rec['yesterday']['max_participants']),
+            delta_participants_percentage=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants']),
             tracked_long_enough=rec['before_yesterday']['num_messages'] > 0
             )
         for (i, rec) in enumerate(sorted(response, key=lambda c: c['today']['distinct_participants'], reverse=True))
