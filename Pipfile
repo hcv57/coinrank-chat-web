@@ -14,12 +14,5 @@ python-slugify = "*"
 markdown = "*"
 mdx-linkify = "*"
 
-
-[dev-packages]
-
-nodeenv = "*"
-
-
 [requires]
-
 python_version = "3.6"
