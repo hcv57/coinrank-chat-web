@@ -56,4 +56,15 @@ def group(_id, slug):
         about = markdown(entry.get('about', 'No description available at this time.'), extensions=["mdx_linkify"]),
         pinnedMessage = markdown(entry.get('pinnedMessage', 'There is no pinned message.'), extensions=["mdx_linkify"])
     )
+    r2 = requests.get('http://%s/api/channel/%s/stats' % (config.API_SERVER_HOST, entry.get('channel_id'))).json()
+    entry.update(
+        message_histogram=dict(
+            labels=[x["date"] for x in r2][:-1],
+            counts=[x["count"] for x in r2][:-1],
+            participants=[x["participants"] for x in r2][:-1]
+        )
+    )
+    import pprint
+    pprint.pprint(entry)
+
     return render_template('group.html', entry=entry)

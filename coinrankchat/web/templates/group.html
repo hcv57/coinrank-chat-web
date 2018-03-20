@@ -27,6 +27,8 @@
                 <div class="card-body">
                     <h2>How does this Group describe itself?</h2>
                     {{ entry.about | safe}}
+                    <br/>
+                    <h3>Stats</h3>
                     <canvas id="messages-historgram-chart" width="100%" height="50px"></canvas>
                     <br/>
                     <h3>This group's pinned message</h3>
@@ -45,20 +47,36 @@ var ctx = document.getElementById("messages-historgram-chart").getContext('2d');
 var messagesHistorgramChart = new Chart(ctx, {
     type: 'line',
     data: {
-        labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: {{ entry.message_histogram.labels | safe}},
         datasets: [{
-            label: '# of Messages',
-            data: [12, 19, 3, 5, 2, 3],
+            label: 'Messages',
+            data:{{ entry.message_histogram.counts }},
             borderWidth: 1,
-            borderColor: '#007BFF'
-        }]
+            borderColor: '#007BFF',
+            yAxisID: 'y-axis-left'
+        },{
+            label: 'Participants',
+            data:{{ entry.message_histogram.participants }},
+            borderWidth: 1,
+            borderColor: '#7B00FF',
+            yAxisID: 'y-axis-right'
+        },
+        ]
     },
     options: {
         scales: {
             yAxes: [{
                 ticks: {
                     beginAtZero:true
-                }
+                },
+                id: 'y-axis-left'
+            },
+            {
+                ticks: {
+                    beginAtZero:true
+                },
+                id: 'y-axis-right',
+                position: 'right'
             }]
         }
     }
