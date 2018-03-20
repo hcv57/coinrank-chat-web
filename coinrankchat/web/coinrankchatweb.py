@@ -12,7 +12,12 @@ def calulate_change(current, previous):
 
 @app.route('/')
 def home():
-    response = requests.get('http://%s/api/groups' % config.API_SERVER_HOST).json()
+    api_response = requests.get('http://%s/api/groups' % config.API_SERVER_HOST).json()
+    response = list(filter(
+        lambda g: g['before_yesterday']['num_messages'] > 0 and
+                  g['yesterday']['num_messages'] > 0 and
+                  g['today']['num_messages'] > 0
+        , api_response))
 
     yesterdays_group_ranking = dict([
         (group['_id'], i)
@@ -35,8 +40,7 @@ def home():
             delta_messages="%+d" % (rec['today']['num_messages'] - rec['yesterday']['num_messages']),
             delta_messages_percentage=calulate_change(rec['today']['num_messages'], rec['yesterday']['num_messages']),
             delta_participants="%+d" % (rec['today']['max_participants'] - rec['yesterday']['max_participants']),
-            delta_participants_percentage=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants']),
-            tracked_long_enough=rec['before_yesterday']['num_messages'] > 0
+            delta_participants_percentage=calulate_change(rec['today']['max_participants'], rec['yesterday']['max_participants'])
             )
         for (i, rec) in enumerate(sorted(response, key=lambda c: c['today']['distinct_participants'], reverse=True))
     ]
