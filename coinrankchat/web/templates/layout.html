@@ -19,16 +19,35 @@
           href="{{ url_for('static', filename='style.css') }}"/>
 
     <title>{% block title %}{% endblock %} | Coinrank.chat</title>
+
+    <!-- Matomo -->
+    <script type="text/javascript">
+        var _paq = _paq || [];
+        /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
+        _paq.push(['trackPageView']);
+        _paq.push(['enableLinkTracking']);
+        (function () {
+            var u = "//piwik.coinrank.chat/";
+            _paq.push(['setTrackerUrl', u + 'piwik.php']);
+            _paq.push(['setSiteId', '1']);
+            var d = document, g = d.createElement('script'), s = d.getElementsByTagName('script')[0];
+            g.type = 'text/javascript';
+            g.async = true;
+            g.defer = true;
+            g.src = u + 'piwik.js';
+            s.parentNode.insertBefore(g, s);
+        })();
+    </script>
+    <!-- End Matomo Code -->
 </head>
 <body>
 <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
 
 
-    <a class="navbar-brand" href="/"><img class="sp-default-logo" src="{{ url_for('static', filename='logo.png') }}" alt="coinrank.chat"></a>
-	
+    <a class="navbar-brand" href="/"><img class="sp-default-logo" src="{{ url_for('static', filename='logo.png') }}"
+                                          alt="coinrank.chat"></a>
 
-	
-	
+
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
             aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
